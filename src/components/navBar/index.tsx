@@ -5,10 +5,12 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { usePathname } from 'next/navigation';
+import { useThemeContext } from '@/theme/themeContext';
 
 type NavBarTypes = {
   onToggleDrawer: () => void;
@@ -16,6 +18,7 @@ type NavBarTypes = {
 
 export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
   const pathname = usePathname();
+  const { isDarkMode, toggleTheme } = useThemeContext();
 
   const getPageTitle = () => {
     if (pathname === '/') return 'Home';
@@ -45,7 +48,13 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
           >
             {getPageTitle()}
           </Typography>
-          <Button color="inherit">Login</Button>
+          <IconButton
+            sx={{ ml: 1 }}
+            onClick={toggleTheme}
+            color="inherit"
+          >
+            {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
         </Toolbar>
       </AppBar>
     </Box>

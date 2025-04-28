@@ -1,4 +1,4 @@
 export * from './homePage';
 export * from './PostsPage';
-export * from './postDetailsPage';
+export * from './PostPage';
 export * from './createPostPage';
