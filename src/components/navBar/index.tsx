@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Menu, Brightness4, Brightness7 } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
-import { useThemeContext } from '@/theme/themeContext';
+import { useThemeContext } from '@/providers';
 
 type NavBarTypes = {
   onToggleDrawer: () => void;

@@ -39,8 +39,6 @@ export const CreatePostPage = () => {
     return false;
   };
 
-  console.log('🚀 ~ CreatePostPage ~ isNextDisabled:', isNextDisabled);
-
   const handleNext = () => {
     if (activeStep === stepLabels.length - 1) {
       setIsPreviewOpen(true);
@@ -55,7 +53,6 @@ export const CreatePostPage = () => {
 
   const handleConfirm = () => {
     setIsPreviewOpen(false);
-    console.log({ title, body });
     alert(`${title} ${body}`);
   };
 
