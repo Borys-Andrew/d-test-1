@@ -4,6 +4,7 @@ import { ReactNode, useState } from 'react';
 import { NavBar } from '../navBar';
 import { SideBar } from '../sideBar';
 import { AppProviders } from '@/providers/appProviders';
+import { Box } from '@mui/material'; // Import Box from MUI
 
 type ClientLayoutProps = {
   children: ReactNode;
@@ -23,9 +24,18 @@ export const ClientLayout = ({ children }: ClientLayoutProps) => {
         isOpen={open}
         onToggleDrawer={handleToggleDrawer}
       />
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <Box
+        sx={{
+          px: { xs: 2, sm: 3, md: 3 },
+          bgcolor: (theme) => theme.palette.background.default,
+          minHeight: {
+            xs: 'calc(100vh - 56px)',
+            md: 'calc(100vh - 64px)',
+          },
+        }}
+      >
         {children}
-      </div>
+      </Box>
     </AppProviders>
   );
 };

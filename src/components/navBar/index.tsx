@@ -6,9 +6,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { Menu, Brightness4, Brightness7 } from '@mui/icons-material';
 import { usePathname } from 'next/navigation';
 import { useThemeContext } from '@/theme/themeContext';
 
@@ -21,15 +19,21 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
   const { isDarkMode, toggleTheme } = useThemeContext();
 
   const getPageTitle = () => {
-    if (pathname === '/') return 'Home';
+    if (pathname === '/') return 'DOiT MVP';
     if (pathname === '/posts') return 'Posts';
     if (pathname === '/posts/create') return 'Create Post';
-    if (pathname.startsWith('/posts/')) return 'Post Details'; // Handles /posts/[id]
-    return 'News';
+    if (pathname.startsWith('/posts/')) return 'Post Details';
+    return 'DOiT MVP';
   };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar
+        position="static"
+        sx={{
+          bgcolor: (theme) => theme.palette.primary.main,
+        }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -39,7 +43,7 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
             sx={{ mr: 2 }}
             onClick={onToggleDrawer}
           >
-            <MenuIcon />
+            <Menu />
           </IconButton>
           <Typography
             variant="h6"
@@ -53,7 +57,7 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
             onClick={toggleTheme}
             color="inherit"
           >
-            {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </Toolbar>
       </AppBar>

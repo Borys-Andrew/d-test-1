@@ -20,6 +20,7 @@ export const ThemeContextProvider = ({
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem(LS_KEYS.theme);
+
       return saved ? JSON.parse(saved) : false;
     }
     return false;
