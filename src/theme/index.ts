@@ -4,11 +4,13 @@ declare module '@mui/material/styles' {
   interface Palette {
     custom: {
       gradient: string;
+      avatar: string;
     };
   }
   interface PaletteOptions {
     custom?: {
       gradient: string;
+      avatar: string;
     };
   }
 }
@@ -31,7 +33,8 @@ export const lightTheme = createTheme({
       secondary: '#666666',
     },
     custom: {
-      gradient: 'linear-gradient(135deg, #e3f2fd, #f3e6f5)', // Light theme gradient
+      gradient: 'linear-gradient(135deg, #e3f2fd, #f3e6f5)',
+      avatar: '#bdbdbd',
     },
   },
 });
@@ -54,7 +57,8 @@ export const darkTheme = createTheme({
       secondary: '#b0b0b0',
     },
     custom: {
-      gradient: 'linear-gradient(135deg, transparent, #49138b)', // Dark theme gradient
+      gradient: 'linear-gradient(135deg, transparent, #49138b)',
+      avatar: '#757575',
     },
   },
 });

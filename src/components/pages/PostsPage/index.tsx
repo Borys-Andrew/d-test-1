@@ -1,15 +1,8 @@
 'use client';
 
-import {
-  Box,
-  Typography,
-  Paper,
-  IconButton,
-  TextField,
-  Grid,
-} from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Box, TextField, Grid, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { PostItem } from './components';
 
 const posts = [
   {
@@ -88,53 +81,31 @@ export const PostsPage = () => {
       <TextField
         fullWidth
         variant="outlined"
+        type="search"
         placeholder="Пошук за заголовком..."
         sx={{ mb: 3 }}
+        onChange={(e) => {
+          console.log(e.target.value);
+        }}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon
+                sx={{ color: (theme) => theme.palette.text.secondary }}
+              />
+            </InputAdornment>
+          ),
+        }}
       />
       <Grid
         container
         spacing={2}
       >
         {posts.map((post) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={4}
+          <PostItem
+            post={post}
             key={post.id}
-          >
-            <Paper
-              sx={{
-                p: 2,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box>
-                <Typography variant="subtitle1">{post.title}</Typography>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                >
-                  {post.body.length > 100
-                    ? `${post.body.substring(0, 100)}...`
-                    : post.body}
-                </Typography>
-              </Box>
-              <Box>
-                <IconButton
-                // component="link"
-                // href={`/posts/${post.id}`}
-                >
-                  <ArrowForwardIcon />
-                </IconButton>
-                <IconButton color="error">
-                  <DeleteIcon />
-                </IconButton>
-              </Box>
-            </Paper>
-          </Grid>
+          />
         ))}
       </Grid>
     </Box>
