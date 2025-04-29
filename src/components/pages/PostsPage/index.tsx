@@ -1,9 +1,19 @@
 'use client';
 
-import { Box, TextField, Grid, InputAdornment } from '@mui/material';
+import {
+  Box,
+  TextField,
+  Grid,
+  InputAdornment,
+  SpeedDial,
+  SpeedDialAction,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { PostItem } from './components';
+import { PostItem, PostsSkeleton } from './components';
 import { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import { SPEED_ACTIONS } from './constants';
+import { useRouter } from 'next/navigation';
 
 const posts = [
   {
@@ -25,58 +35,13 @@ const posts = [
     title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
     body: 'et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut',
   },
-  {
-    userId: 1,
-    id: 4,
-    title: 'eum et est occaecati',
-    body: 'ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit',
-  },
-  {
-    userId: 1,
-    id: 5,
-    title: 'nesciunt quas odio',
-    body: 'repudiandae veniam quaerat sunt sed\nalias aut fugiat sit autem sed est\nvoluptatem omnis possimus esse voluptatibus quis\nest aut tenetur dolor neque',
-  },
-  {
-    userId: 1,
-    id: 6,
-    title: 'dolorem eum magni eos aperiam quia',
-    body: 'ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae',
-  },
-  {
-    userId: 1,
-    id: 7,
-    title: 'magnam facilis autem',
-    body: 'dolore placeat quibusdam ea quo vitae\nmagni quis enim qui quis quo nemo aut saepe\nquidem repellat excepturi ut quia\nsunt ut sequi eos ea sed quas',
-  },
-  {
-    userId: 1,
-    id: 8,
-    title: 'dolorem dolore est ipsam',
-    body: 'dignissimos aperiam dolorem qui eum\nfacilis quibusdam animi sint suscipit qui sint possimus cum\nquaerat magni maiores excepturi\nipsam ut commodi dolor voluptatum modi aut vitae',
-  },
-  {
-    userId: 1,
-    id: 9,
-    title: 'nesciunt iure omnis dolorem tempora et accusantium',
-    body: 'consectetur animi nesciunt iure dolore\nenim quia ad\nveniam autem ut quam aut nobis\net est aut quod aut provident voluptas autem voluptas',
-  },
-  {
-    userId: 1,
-    id: 10,
-    title: 'optio molestias id quia eum',
-    body: 'quo et expedita modi cum officia vel magni\ndoloribus qui repudiandae\nvero nisi sit\nquos veniam quod sed accusamus veritatis error',
-  },
-  {
-    userId: 2,
-    id: 11,
-    title: 'et ea vero quia laudantium autem',
-    body: 'delectus reiciendis molestiae occaecati non minima eveniet qui voluptatibus\naccusamus in eum beatae sit\nvel qui neque voluptates ut commodi qui incidunt\nut animi commodi',
-  },
 ];
 
 export const PostsPage = () => {
   const [search, setSearch] = useState('');
+  const router = useRouter();
+
+  const loading = false;
 
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()),
@@ -102,17 +67,42 @@ export const PostsPage = () => {
           ),
         }}
       />
+
       <Grid
         container
         spacing={2}
       >
-        {filteredPosts.map((post) => (
-          <PostItem
-            post={post}
-            key={post.id}
+        {loading ? (
+          <PostsSkeleton />
+        ) : (
+          filteredPosts.map((post) => (
+            <Grid
+              item
+              xs={12}
+              sm={6}
+              md={4}
+              key={post.id}
+            >
+              <PostItem post={post} />
+            </Grid>
+          ))
+        )}
+      </Grid>
+
+      <SpeedDial
+        ariaLabel="SpeedDial"
+        sx={{ position: 'fixed', bottom: 24, right: 24 }}
+        icon={<AddIcon />}
+      >
+        {SPEED_ACTIONS.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={() => router.push(action.link)}
           />
         ))}
-      </Grid>
+      </SpeedDial>
     </Box>
   );
 };

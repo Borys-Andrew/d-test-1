@@ -1,13 +1,16 @@
 'use client';
 
 import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
   Avatar,
-  Box,
-  Button,
-  Link,
-  Paper,
-  Stack,
   Typography,
+  Button,
+  Container,
+  Link,
+  Box,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBack from '@mui/icons-material/ArrowBack';
@@ -17,72 +20,35 @@ type PostDetailsPageProps = {
   id: string;
 };
 
+const post = {
+  userId: 1,
+  id: 3,
+  title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
+  body: 'et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut',
+};
+
 export const PostDetailsPage = ({ id }: PostDetailsPageProps) => {
-  const post = {
-    userId: 1,
-    id: 3,
-    title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
-    body: 'et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut',
-  };
-  const userName = `User ${post.userId}`;
-  const userInitial = post.title.charAt(0).toUpperCase();
+  console.log('🚀 ~ PostDetailsPage ~ id:', id);
+
+  const userId = `User ${post.userId}`;
+  const avatarInitial = post.title.charAt(0).toUpperCase();
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Post Details</h1>
-      <p>Showing details for post ID: {id}</p>
-      <Paper
-        sx={{
-          p: 2,
-          bgcolor: (theme) => theme.palette.background.paper,
-          borderRadius: 2,
-        }}
-      >
-        <Stack spacing={4}>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <Avatar
-              sx={{
-                bgcolor: (theme) => theme.palette.custom.avatar,
-                color: (theme) => theme.palette.common.white,
-                width: 40,
-                height: 40,
-              }}
-            >
-              {userInitial}
-            </Avatar>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <Typography
-                variant="subtitle2"
-                sx={{
-                  color: (theme) => theme.palette.text.primary,
-                }}
-              >
-                {post.title}
-              </Typography>
-              <Typography
-                variant="subtitle2"
-                sx={{ color: (theme) => theme.palette.text.secondary }}
-              >
-                {userName}
-              </Typography>
-            </Box>
-          </Box>
-          <Box>
-            <Typography
-              variant="body2"
-              sx={{
-                color: (theme) => theme.palette.text.primary,
-              }}
-            >
-              {post.body}
-            </Typography>
-          </Box>
+    <Container sx={{ pt: 4 }}>
+      <Card>
+        <CardHeader
+          avatar={<Avatar>{avatarInitial}</Avatar>}
+          title={post.title}
+          subheader={userId}
+        />
+        <CardContent>
+          <Typography variant="body1">{post.body}</Typography>
+        </CardContent>
+        <CardActions
+          sx={{
+            p: 2,
+          }}
+        >
           <Box
             sx={{
               display: 'flex',
@@ -107,12 +73,13 @@ export const PostDetailsPage = ({ id }: PostDetailsPageProps) => {
               component={Link}
               href={PATHS.posts}
               startIcon={<ArrowBack />}
+              title="To posts"
             >
-              To the list
+              To posts
             </Button>
           </Box>
-        </Stack>
-      </Paper>
-    </div>
+        </CardActions>
+      </Card>
+    </Container>
   );
 };
