@@ -3,6 +3,7 @@
 import { Box, TextField, Grid, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { PostItem } from './components';
+import { useState } from 'react';
 
 const posts = [
   {
@@ -75,7 +76,12 @@ const posts = [
 ];
 
 export const PostsPage = () => {
-  console.log({ posts });
+  const [search, setSearch] = useState('');
+
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(search.toLowerCase()),
+  );
+
   return (
     <Box sx={{ p: 3 }}>
       <TextField
@@ -84,9 +90,8 @@ export const PostsPage = () => {
         type="search"
         placeholder="Пошук за заголовком..."
         sx={{ mb: 3 }}
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -101,7 +106,7 @@ export const PostsPage = () => {
         container
         spacing={2}
       >
-        {posts.map((post) => (
+        {filteredPosts.map((post) => (
           <PostItem
             post={post}
             key={post.id}
