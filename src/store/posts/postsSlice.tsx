@@ -1,4 +1,4 @@
-import { Post } from '@/types';
+import { Comment, Post } from '@/types';
 import { createSlice } from '@reduxjs/toolkit';
 import {
   getPosts,
@@ -6,11 +6,13 @@ import {
   updatePost,
   deletePost,
   getPostById,
+  getPostComments,
 } from './postsApi';
 
 type InitialStateTypes = {
   posts: Post[];
   selectedPost: Post | null;
+  postComments: Comment[];
   loading: boolean;
   error: string | null;
 };
@@ -18,6 +20,7 @@ type InitialStateTypes = {
 const initialState: InitialStateTypes = {
   posts: [],
   selectedPost: null,
+  postComments: [],
   loading: false,
   error: null,
 };
@@ -28,8 +31,8 @@ const postsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
-      // === Fetch All ===
+      // POSTS
+      // === Get all ===
       .addCase(getPosts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -56,7 +59,7 @@ const postsSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || 'Failed to fetch post';
       })
-      
+
       // === Create ===
       .addCase(createPost.pending, (state) => {
         state.loading = true;
@@ -71,7 +74,7 @@ const postsSlice = createSlice({
         state.error = action.error.message || 'Error creating post';
       })
 
-      // === UPDATE ===
+      // === Udate ===
       .addCase(updatePost.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -90,7 +93,7 @@ const postsSlice = createSlice({
         state.error = action.error.message || 'Error updating post';
       })
 
-      // === DELETE ===
+      // === Delete ===
       .addCase(deletePost.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -102,6 +105,21 @@ const postsSlice = createSlice({
       .addCase(deletePost.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Error deleting post';
+      })
+
+      // POST COMMENTS
+      // === Get all ===
+      .addCase(getPostComments.fulfilled, (state, action) => {
+        state.postComments = action.payload;
+        state.loading = false;
+      })
+      .addCase(getPostComments.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getPostComments.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch comments';
       });
   },
 });

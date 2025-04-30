@@ -11,51 +11,50 @@ import {
   Container,
   Link,
   Box,
-  CircularProgress,
   Snackbar,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { PATHS } from '@/constants/paths';
-import { ConfirmPostDelete } from '@/components/confirmPostDelete';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store';
-import { getPostById } from '@/store/posts/postsApi';
+import {
+  deletePost,
+  getPostById,
+  getPostComments,
+} from '@/store/posts/postsApi';
+import { useRouter } from 'next/navigation';
+import { Loader, ConfirmPostDelete } from '@/components';
 
 type PostDetailsPageProps = {
   id: string;
 };
 
 export const PostDetailsPage = ({ id }: PostDetailsPageProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
   const dispatch = useAppDispatch();
+  const [isOpen, setIsOpen] = useState(false);
   const { selectedPost, loading, error } = useAppSelector(
     (state) => state.posts,
   );
+  const userId = `User ${selectedPost?.userId}`;
+  const avatarInitial = selectedPost?.title.charAt(0).toUpperCase();
 
   useEffect(() => {
     dispatch(getPostById(Number(id)));
+    dispatch(getPostComments(Number(id)));
   }, [dispatch, id]);
 
   const toggleModal = () => setIsOpen((prev) => !prev);
 
-  // if (loading || !selectedPost) return <CircularProgress />;
-  if (loading || !selectedPost)
-    return (
-      <Box
-        sx={{
-          minHeight: {
-            xs: 'calc(100vh - 56px)',
-            md: 'calc(100vh - 64px)',
-          },
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  const handleDelete = () => {
+    dispatch(deletePost(+id));
+    toggleModal();
+    router.push(PATHS.posts);
+  };
+
+  if (loading || !selectedPost) return <Loader />;
+
   if (error)
     return (
       <Snackbar
@@ -64,9 +63,6 @@ export const PostDetailsPage = ({ id }: PostDetailsPageProps) => {
         message={error}
       />
     );
-
-  const userId = `User ${selectedPost?.userId}`;
-  const avatarInitial = selectedPost?.title.charAt(0).toUpperCase();
 
   return (
     <Container sx={{ pt: 4 }}>
@@ -113,8 +109,9 @@ export const PostDetailsPage = ({ id }: PostDetailsPageProps) => {
       {selectedPost && (
         <ConfirmPostDelete
           isOpen={isOpen}
-          onToggleModal={toggleModal}
           post={selectedPost}
+          onToggleModal={toggleModal}
+          onHandleDelete={handleDelete}
         />
       )}
     </Container>

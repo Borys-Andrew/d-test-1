@@ -1,8 +1,5 @@
 'use client';
 
-import { PATHS } from '@/constants/paths';
-import { useAppDispatch } from '@/store';
-import { deletePost } from '@/store/posts/postsApi';
 import { Post } from '@/types';
 import {
   Button,
@@ -12,29 +9,20 @@ import {
   DialogTitle,
   Typography,
 } from '@mui/material';
-import { useRouter } from 'next/navigation';
 
 type ConfirmDeletModalTypes = {
   isOpen: boolean;
   post: Post;
-  navigateTo?: string;
   onToggleModal: () => void;
+  onHandleDelete: () => void;
 };
 
 export const ConfirmPostDelete = ({
   isOpen,
   post,
-  navigateTo,
   onToggleModal,
+  onHandleDelete,
 }: ConfirmDeletModalTypes) => {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-
-  const handleDelete = () => {
-    dispatch(deletePost(post.id));
-    onToggleModal();
-  };
-
   return (
     <Dialog
       open={isOpen}
@@ -48,12 +36,7 @@ export const ConfirmPostDelete = ({
       <DialogActions>
         <Button onClick={onToggleModal}>Cancel</Button>
         <Button
-          onClick={() => {
-            handleDelete();
-            if (navigateTo) {
-              router.push(PATHS.posts);
-            }
-          }}
+          onClick={onHandleDelete}
           variant="contained"
         >
           Confirm

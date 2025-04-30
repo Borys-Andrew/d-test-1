@@ -14,30 +14,39 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  CircularProgress,
+  Snackbar,
 } from '@mui/material';
 import { CREATE_POST_STEPS } from './constants';
 import { Save, Title, Subject } from '@mui/icons-material';
+import { PreviewPostModal } from './components';
+import { useAppDispatch, useAppSelector } from '@/store';
+import { createPost } from '@/store/posts';
+import { Loader } from '@/components/loader';
+import { useRouter } from 'next/navigation';
+import { PATHS } from '@/constants/paths';
 
 export const CreatePostPage = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [isSuccessCreated, setIsSuccessCreated] = useState(false);
+  const { loading, error } = useAppSelector((state) => state.posts);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const stepKeys = Object.keys(CREATE_POST_STEPS).map(Number);
   const stepLabels = stepKeys.map((key) => CREATE_POST_STEPS[key].label);
+
   const isNextDisabled = () => {
-    if (activeStep === 0) {
-      return title.length <= 3;
-    }
-    if (activeStep === 1) {
-      return body.length <= 5;
-    }
-    if (activeStep === 2) {
-      return title.length <= 3 || body.length <= 5;
-    }
+    if (activeStep === 0) return title.trim().length <= 3;
+    if (activeStep === 1) return body.trim().length <= 5;
+
     return false;
   };
+
+  const togglePreview = () => setIsPreviewOpen((prev) => !prev);
 
   const handleNext = () => {
     if (activeStep === stepLabels.length - 1) {
@@ -51,9 +60,31 @@ export const CreatePostPage = () => {
     setActiveStep((prev) => prev - 1);
   };
 
-  const handleConfirm = () => {
+  const handleEdit = () => {
+    setActiveStep(1);
     setIsPreviewOpen(false);
-    alert(`${title} ${body}`);
+  };
+
+  if (loading) return <Loader />;
+
+  if (error)
+    return (
+      <Snackbar
+        open={!!error}
+        autoHideDuration={5000}
+        message={error}
+      />
+    );
+
+  const handleCreate = async () => {
+    try {
+      await dispatch(createPost({ title, body, userId: 777 }));
+      setIsPreviewOpen(false);
+      setIsSuccessCreated(true);
+      router.push(PATHS.posts);
+    } catch (err) {
+      console.error('Error creating post:', err);
+    }
   };
 
   return (
@@ -123,38 +154,22 @@ export const CreatePostPage = () => {
         </Box>
       </Paper>
 
-      <Dialog
-        open={isPreviewOpen}
-        onClose={() => setIsPreviewOpen(false)}
-        fullWidth
-      >
-        <DialogTitle>Preview post</DialogTitle>
-        <DialogContent dividers>
-          <Typography variant="h6">{title}</Typography>
-          <Typography
-            variant="body1"
-            sx={{ whiteSpace: 'pre-wrap' }}
-          >
-            {body}
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              setActiveStep(1);
-              setIsPreviewOpen(false);
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            onClick={handleConfirm}
-            variant="contained"
-          >
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <PreviewPostModal
+        title={title}
+        body={body}
+        isPreviewOpen={isPreviewOpen}
+        onTogglePreview={togglePreview}
+        onHandleCreate={handleCreate}
+        onHandleEdit={handleEdit}
+      />
+
+      {/* Snackbar success */}
+      <Snackbar
+        open={isSuccessCreated}
+        autoHideDuration={3000}
+        onClose={() => setIsSuccessCreated(false)}
+        message="Post created 🎉"
+      />
     </Box>
   );
 };

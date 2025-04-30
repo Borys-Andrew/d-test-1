@@ -1,4 +1,3 @@
-// src/store/store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import postsReducer from './posts/postsSlice';
 
@@ -8,6 +7,5 @@ export const store = configureStore({
   },
 });
 
-// Типи для хуків
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

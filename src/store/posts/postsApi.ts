@@ -18,7 +18,7 @@ export const getPostById = createAsyncThunk(
 
 export const createPost = createAsyncThunk(
   'posts/createPost',
-  async (newPost: { title: string; body: string }) => {
+  async (newPost: { title: string; body: string; userId: number }) => {
     const response = await axios.post(BASE_URL, newPost);
     return response.data;
   },
@@ -43,5 +43,13 @@ export const deletePost = createAsyncThunk(
   async (id: number) => {
     await axios.delete(`${BASE_URL}/${id}`);
     return id;
+  },
+);
+
+export const getPostComments = createAsyncThunk(
+  'posts/getPostComments',
+  async (id: number) => {
+    const response = await axios.get(`${BASE_URL}/${id}/comments`);
+    return response.data;
   },
 );

@@ -23,8 +23,7 @@ export const PostsPage = () => {
 
   const dispatch = useAppDispatch();
 
-  const { posts, loading, error } = useAppSelector((state) => state.posts);
-  console.log('🚀 ~ PostsPage ~ error:', error);
+  const { posts, loading } = useAppSelector((state) => state.posts);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -33,6 +32,7 @@ export const PostsPage = () => {
   const filteredPosts = posts.filter((post) =>
     post.title.toLowerCase().includes(search.toLowerCase()),
   );
+
   return (
     <Box sx={{ p: 3 }}>
       <TextField
@@ -59,7 +59,7 @@ export const PostsPage = () => {
         spacing={2}
       >
         {loading ? (
-          <PostsSkeleton />
+          <PostsSkeleton totalItems={9} />
         ) : (
           filteredPosts.map((post) => (
             <Grid

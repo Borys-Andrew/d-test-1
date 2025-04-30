@@ -3,3 +3,4 @@ export * from './sideBar';
 export * from './clientLayout';
 export * from './pages';
 export * from './confirmPostDelete';
+export * from './loader';

@@ -7,8 +7,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Menu, Brightness4, Brightness7 } from '@mui/icons-material';
+import CommentIcon from '@mui/icons-material/Comment';
 import { usePathname } from 'next/navigation';
 import { useThemeContext } from '@/providers';
+import { useAppSelector } from '@/store';
+import { Badge } from '@mui/material';
+import { useState } from 'react';
+import { CommentsPostModal } from '../commentsPostModal';
 
 type NavBarTypes = {
   onToggleDrawer: () => void;
@@ -17,6 +22,12 @@ type NavBarTypes = {
 export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
   const pathname = usePathname();
   const { isDarkMode, toggleTheme } = useThemeContext();
+  const { postComments } = useAppSelector((state) => state.posts);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const totalComments = postComments.length;
+  const isCommetsVisible =
+    pathname.startsWith('/posts/') && pathname !== '/posts/create';
 
   const getPageTitle = () => {
     if (pathname === '/') return 'DOiT MVP';
@@ -25,6 +36,8 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
     if (pathname.startsWith('/posts/')) return 'Post Details';
     return 'DOiT MVP';
   };
+
+  const toggleModal = () => setIsOpen((prev) => !prev);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -59,8 +72,27 @@ export const NavBar = ({ onToggleDrawer }: NavBarTypes) => {
           >
             {isDarkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
+          {isCommetsVisible && (
+            <IconButton
+              sx={{ ml: 1 }}
+              onClick={toggleModal}
+              color="inherit"
+            >
+              <Badge
+                badgeContent={totalComments}
+                color="warning"
+              >
+                <CommentIcon />
+              </Badge>
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
+      <CommentsPostModal
+        isOpen={isOpen}
+        onToggleModal={toggleModal}
+        comments={postComments}
+      />
     </Box>
   );
 };
