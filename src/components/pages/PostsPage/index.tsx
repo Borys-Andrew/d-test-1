@@ -5,33 +5,14 @@ import {
   TextField,
   Grid,
   InputAdornment,
-  SpeedDial,
   SpeedDialAction,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { PostItem, PostsSkeleton } from './components';
-import { useEffect, useState } from 'react';
-import AddIcon from '@mui/icons-material/Add';
-import { SPEED_ACTIONS } from './constants';
-import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '@/store';
-import { getPosts } from '@/store/posts';
+import { usePosts } from './hooks';
 
 export const PostsPage = () => {
-  const [search, setSearch] = useState('');
-  const router = useRouter();
-
-  const dispatch = useAppDispatch();
-
-  const { posts, loading } = useAppSelector((state) => state.posts);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
-
-  const filteredPosts = posts.filter((post) =>
-    post.title.toLowerCase().includes(search.toLowerCase()),
-  );
+  const { search, loading, filteredPosts, setSearch } = usePosts();
 
   return (
     <Box sx={{ p: 3 }}>
@@ -74,21 +55,7 @@ export const PostsPage = () => {
           ))
         )}
       </Grid>
-
-      <SpeedDial
-        ariaLabel="SpeedDial"
-        sx={{ position: 'fixed', bottom: 24, right: 24 }}
-        icon={<AddIcon />}
-      >
-        {SPEED_ACTIONS.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={() => router.push(action.link)}
-          />
-        ))}
-      </SpeedDial>
+      <SpeedDialAction />
     </Box>
   );
 };

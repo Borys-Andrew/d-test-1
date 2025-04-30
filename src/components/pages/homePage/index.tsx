@@ -27,9 +27,6 @@ export const HomePage = () => {
           alignItems: 'center',
           gap: 2,
           background: (theme) => theme.palette.custom.gradient,
-
-          // background:
-          //   'linear-gradient(135deg, #e3f2fd, #e5f0fe, #e9edfd, #ecebfb, #f0e8f9, #f3e6f5)',
         }}
       >
         <Typography
