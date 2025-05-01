@@ -1,6 +1,10 @@
-import { PostsPage } from '@/components';
-import React from 'react';
+import { Container } from '@mui/material';
+import { PostsPage } from './_components/postPage';
 
 export default function Posts() {
-  return <PostsPage />;
+  return (
+    <Container>
+      <PostsPage />
+    </Container>
+  );
 }

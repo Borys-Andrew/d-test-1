@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📋 Posts Dashboard
 
-## Getting Started
+This project is a fully functional CRUD application for managing posts, built with **Next.js** and integrated with the [**JSONPlaceholder API**](https://jsonplaceholder.typicode.com). It features navigation with **App Router**, a responsive interface styled with **Material UI**, and state management using **Redux Toolkit**. Light/dark theme switching, step-based form creation, and persistent navigation enhance the UX.
 
-First, run the development server:
+## 🛠️ Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js 14 (App Router)**
+- **React 18** – UI with hooks
+- **Redux Toolkit** – Global state management with async thunks
+- **TypeScript** – Type safety
+- **Material UI v5** – Component library and theming
+- **Tailwind CSS** – Utility-first styling (for layout utils)
+- **Axios** – HTTP requests to the API
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 📝 Full CRUD for posts (Create, Read, Update, Delete)
+- 🌓 Light/Dark theme toggle in the AppBar
+- 🧭 Persistent Drawer navigation
+- 🔍 Search posts by title
+- ⏳ Skeleton loaders and progress indicators
+- 🪄 Stepper-based post creation form with preview
+- 💬 Comment dialog per post (Badge + Dialog)
+- 🍞 Snackbar notifications
+- 📱 Fully responsive design
+- 📦 Clean, modular architecture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📡 API Endpoints Used
 
-## Learn More
+- **GET** `https://jsonplaceholder.typicode.com/posts` – Fetch all posts
+- **GET** `https://jsonplaceholder.typicode.com/posts/{id}` – Fetch post by ID
+- **POST** `https://jsonplaceholder.typicode.com/posts` – Create post
+- **PATCH** `https://jsonplaceholder.typicode.com/posts/{id}` – Update post
+- **DELETE** `https://jsonplaceholder.typicode.com/posts/{id}` – Delete post
 
-To learn more about Next.js, take a look at the following resources:
+## 🏃🏼‍♂️ Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Node.js** >= 18
+- **npm** or **yarn**
+- **Git** for cloning the repo
 
-## Deploy on Vercel
+### Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clone the Repository**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   git clone https://github.com/Borys-Andrew/d-test-1.git
+   cd d-test-1
+   ```
+
+2. **Install Dependencies**
+
+   ```bash
+    npm install
+   ```
+
+3. **Run the Development Server**
+
+   ```bash
+    npm run dev
+   ```
+
+4. **Access the App**
+
+Open your browser and navigate to: [http://localhost:3000](http://localhost:3000)
+
+## 📞 Contact Information
+
+Feel free to reach out for collaboration or job opportunities!
+
+- 📱 **Phone**: +38-073-100-74-63
+- 📧 **Email**: [borysandrew9@gmail.com](mailto:borysandrew9@gmail.com)
+- 🔗 **LinkedIn**: [Andrew Borys](https://www.linkedin.com/in/andrew-borys-233365200/)
+- 💬 **Telegram**: [@BorysAndrew](https://t.me/BorysAndrew)
+- 💻 **GitHub**: [Andrew-Borys](https://github.com/Andrew-Borys)
+- 🌍 **Location**: Lviv, Ukraine
+- 👨‍💻 Open to work in office, hybrid, or remotely.

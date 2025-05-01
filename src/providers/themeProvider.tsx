@@ -2,8 +2,8 @@
 
 import React, { createContext, useState, useMemo, useContext } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { LS_KEYS } from '@/constants/keys';
 import { darkTheme, lightTheme } from '@/theme';
+import { LOCAL_STORAGE_KEYS } from '@/shared/constants/localStorageKeys';
 
 type ThemeContextType = {
   isDarkMode: boolean;
@@ -19,7 +19,7 @@ export const ThemeContextProvider = ({
 }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(LS_KEYS.theme);
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEYS.theme);
 
       return saved ? JSON.parse(saved) : false;
     }
@@ -29,7 +29,7 @@ export const ThemeContextProvider = ({
   const toggleTheme = () => {
     setIsDarkMode((prev: boolean) => {
       const newValue = !prev;
-      localStorage.setItem(LS_KEYS.theme, JSON.stringify(newValue));
+      localStorage.setItem(LOCAL_STORAGE_KEYS.theme, JSON.stringify(newValue));
       return newValue;
     });
   };

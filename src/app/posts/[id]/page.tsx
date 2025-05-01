@@ -1,5 +1,5 @@
-import { PostDetailsPage } from '@/components/pages';
+import { PostViewPage } from './_components/postViewPage';
 
 export default function PostDetails({ params }: { params: { id: string } }) {
-  return <PostDetailsPage id={params.id} />;
+  return <PostViewPage id={params.id} />;
 }

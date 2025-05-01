@@ -1,6 +1,5 @@
-import { CreatePostPage } from '@/components';
-import React from 'react';
+import { PostCreatePage } from './_components/postCreatePage';
 
-export default function CreatePost() {
-  return <CreatePostPage />;
+export default function PostCreate() {
+  return <PostCreatePage />;
 }

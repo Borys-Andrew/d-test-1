@@ -9,7 +9,7 @@ import {
   getPostComments,
 } from './postsApi';
 
-type InitialStateTypes = {
+type PoInitialStateProps = {
   posts: Post[];
   selectedPost: Post | null;
   postComments: Comment[];
@@ -17,7 +17,7 @@ type InitialStateTypes = {
   error: string | null;
 };
 
-const initialState: InitialStateTypes = {
+const initialState: PoInitialStateProps = {
   posts: [],
   selectedPost: null,
   postComments: [],
